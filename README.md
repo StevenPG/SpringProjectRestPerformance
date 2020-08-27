@@ -14,6 +14,10 @@ Each service will be deployed in an embedded tomcat jar on a t2.micro instance i
 
 ## Measurements and Comparisons
 
+- Test Endpoints
+    - Success: https://httpbin.org/status/200
+    - Failure: https://httpbin.org/status/404
+
 - Store here in tables (x)
 
 - Lines of code/XML/Annotations (roughly)
