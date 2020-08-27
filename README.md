@@ -14,6 +14,8 @@ Each service will be deployed in an embedded tomcat jar on a t2.micro instance i
 
 ## Measurements and Comparisons
 
+- Store here in tables (x)
+
 - Lines of code/XML/Annotations (roughly)
 - Total Number of Classes
 - Total number of threads (limited by JVM args)
