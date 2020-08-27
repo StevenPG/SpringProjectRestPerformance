@@ -20,6 +20,7 @@ Each service will be deployed in an embedded tomcat jar on a t2.micro instance i
 - Total Number of Classes
 - Total number of threads (limited by JVM args)
 - Build time on a simple laptop (CPU/Memory Usage)
+- Rebuild time with no changes
 
 - Startup time until ready
 - Cold request
