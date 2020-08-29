@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/integration
+    http://www.springframework.org/schema/integration/spring-integration-5.2.xsd
+    http://www.springframework.org/schema/integration/http
+    http://www.springframework.org/schema/integration/http/spring-integration-http-5.2.xsd">
+
+    <int:channel id="badEndpointRequestChannel" />
+    <int:channel id="badEndpointReplyChannel" />
+
+    <int-http:inbound-gateway
+            request-channel="badEndpointRequestChannel"
+            reply-channel="badEndpointReplyChannel"
+            path="/api/v1/integration/notfound"
+            supported-methods="GET"/>
+
+    <!-- error handler, if 404 catch and return 404 -->
+    <int:transformer
+            ref="notFoundExceptionHandler"
+            input-channel="errorChannel"
+            output-channel="goodEndpointReplyChannel" />
+
+    <!-- outbound gateway -->
+</beans>
