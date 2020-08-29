@@ -16,8 +16,14 @@
     <int-http:inbound-gateway
             request-channel="goodEndpointRequestChannel"
             reply-channel="goodEndpointReplyChannel"
-            path="/api/v1/integration/ok"
+            path="${endpoint.api.ok}"
             supported-methods="GET"/>
 
     <!-- outbound gateway -->
+    <int-http:outbound-gateway
+            request-channel="goodEndpointRequestChannel"
+            reply-channel="goodEndpointReplyChannel"
+            url="${endpoint.ok}"
+        />
+
 </beans>

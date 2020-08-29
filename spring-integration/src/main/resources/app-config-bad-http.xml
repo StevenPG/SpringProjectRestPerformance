@@ -12,18 +12,25 @@
 
     <int:channel id="badEndpointRequestChannel" />
     <int:channel id="badEndpointReplyChannel" />
+    <int:channel id="errorHandlingChannel" />
 
     <int-http:inbound-gateway
             request-channel="badEndpointRequestChannel"
             reply-channel="badEndpointReplyChannel"
-            path="/api/v1/integration/notfound"
+            error-channel="errorHandlingChannel"
+            path="${endpoint.api.notfound}"
             supported-methods="GET"/>
 
     <!-- error handler, if 404 catch and return 404 -->
     <int:transformer
             ref="notFoundExceptionHandler"
-            input-channel="errorChannel"
-            output-channel="goodEndpointReplyChannel" />
+            input-channel="errorHandlingChannel"
+            output-channel="badEndpointReplyChannel" />
 
     <!-- outbound gateway -->
+    <int-http:outbound-gateway
+            request-channel="badEndpointRequestChannel"
+            reply-channel="badEndpointReplyChannel"
+            url="${endpoint.notfound}"
+    />
 </beans>
