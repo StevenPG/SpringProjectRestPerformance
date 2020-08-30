@@ -5,7 +5,7 @@ provider "aws" {
 
 resource "aws_key_pair" "ubuntu" {
   key_name   = "ubuntu"
-  public_key = file("key.pub")
+  public_key = file("key.pub") # need to replace this with a working key
 }
 
 resource "aws_security_group" "ubuntu" {
