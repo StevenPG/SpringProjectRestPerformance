@@ -3,9 +3,30 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+resource "tls_private_key" "ubuntu_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource "aws_key_pair" "ubuntu" {
   key_name   = "ubuntu"
-  public_key = file("key.pub") # need to replace this with a working key
+  public_key = tls_private_key.ubuntu_key.public_key_openssh
+}
+
+data "aws_ami" "ubuntu" {
+    most_recent = true
+
+    filter {
+        name   = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+    }
+
+    filter {
+        name   = "virtualization-type"
+        values = ["hvm"]
+    }
+
+    owners = ["099720109477"] # Canonical
 }
 
 resource "aws_security_group" "ubuntu" {
@@ -40,11 +61,10 @@ resource "aws_security_group" "ubuntu" {
   }
 }
 
-resource "aws_instance" "ubuntu" {
+resource "aws_instance" "ubuntu_deployment" {
   key_name      = aws_key_pair.ubuntu.key_name
-  ami           = "ami-03ba3948f6c37a4b0"
+  ami           = "ami-09211c0443ccbcb9e"
   instance_type = "t2.micro"
-  name = "deployment-enviroment"
 
   tags = {
     Name = "deployment"
@@ -63,11 +83,10 @@ resource "aws_instance" "ubuntu" {
 
 }
 
-resource "aws_instance" "ubuntu" {
+resource "aws_instance" "ubuntu_performance" {
   key_name      = aws_key_pair.ubuntu.key_name
-  ami           = "ami-03ba3948f6c37a4b0"
+  ami           = "ami-09211c0443ccbcb9e"
   instance_type = "t2.micro"
-  name = "performance-testing-enviroment"
 
   tags = {
     Name = "performance-testing"
